@@ -1,0 +1,1 @@
+Representation en objet java d'une ressource externe

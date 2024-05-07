@@ -1,0 +1,1 @@
+implementation dudit contrat d'interface (aka le modele)

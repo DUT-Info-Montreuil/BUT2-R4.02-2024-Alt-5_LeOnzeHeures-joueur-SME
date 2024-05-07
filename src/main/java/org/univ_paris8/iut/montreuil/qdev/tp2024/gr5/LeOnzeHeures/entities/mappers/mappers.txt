@@ -1,0 +1,1 @@
+Classe permettant conversion de BO vers DTO
