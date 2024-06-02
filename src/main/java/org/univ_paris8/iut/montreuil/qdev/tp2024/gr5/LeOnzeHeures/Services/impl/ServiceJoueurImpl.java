@@ -5,6 +5,9 @@ import org.univ_paris8.iut.montreuil.qdev.tp2024.gr5.LeOnzeHeures.entities.DTO.I
 import org.univ_paris8.iut.montreuil.qdev.tp2024.gr5.LeOnzeHeures.entities.utils.exceptions.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class ServiceJoueurImpl implements IJoueurService {
 
@@ -54,9 +57,30 @@ public class ServiceJoueurImpl implements IJoueurService {
             }
         }
 
-        JoueurDTO nouveauJoueur = new JoueurDTO(prenom, pseudo, anneeNaissance, langue, interets, null)
+        JoueurDTO nouveauJoueur = new JoueurDTO(prenom, pseudo, anneeNaissance, langue, interets, null);
         joueurs.add(nouveauJoueur);
         return true;
+    }
+
+    private List<InteretDTO> convertirStringEnListeInterets(String interetsString) throws NonAlphabetiqueException {
+        List<InteretDTO> interets = new ArrayList<>();
+        Set<String> interetSet = new HashSet<>();
+        String[] interetsArray = interetsString.split(",");
+        for (String interet : interetsArray) {
+            String interetTrimmed = interet.trim();
+
+            if (!interetTrimmed.matches("[a-zA-Z]+")) {
+                throw new NonAlphabetiqueException("L'intérêt ne peut pas contenir de chiffres : " + interetTrimmed);
+            }
+            //utilisation du Set pour ne pas avoir de doublon
+            interetSet.add(interetTrimmed);
+        }
+
+        for (String interet : interetSet) {
+            interets.add(new InteretDTO(interet));
+        }
+
+        return interets;
     }
 
     @Override
