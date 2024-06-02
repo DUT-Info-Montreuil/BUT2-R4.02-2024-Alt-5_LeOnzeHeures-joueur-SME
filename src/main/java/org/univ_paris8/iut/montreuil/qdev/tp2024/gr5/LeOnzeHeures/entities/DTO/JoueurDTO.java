@@ -13,12 +13,13 @@ public class JoueurDTO {
     private ArrayList<InteretDTO> interets;
     private ArrayList<StatistiquePartieDTO> stats;
 
-    public JoueurDTO(String prenom, String pseudo, int anneeNaissance, LangueEnum langue, ArrayList<InteretDTO> interets) {
+    public JoueurDTO(String prenom, String pseudo, int anneeNaissance, LangueEnum langue, ArrayList<InteretDTO> interets, ArrayList<StatistiquePartieDTO> stats) {
         this.prenom         = prenom;
         this.pseudo         = pseudo;
         this.anneeNaissance = anneeNaissance;
         this.langue         = langue;
         this.interets       = interets;
+        this.stats = stats;
     }
 
     @Override

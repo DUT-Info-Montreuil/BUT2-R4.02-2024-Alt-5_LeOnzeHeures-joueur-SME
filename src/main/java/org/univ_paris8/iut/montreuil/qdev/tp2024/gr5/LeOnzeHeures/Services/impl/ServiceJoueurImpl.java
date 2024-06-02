@@ -2,6 +2,8 @@ package org.univ_paris8.iut.montreuil.qdev.tp2024.gr5.LeOnzeHeures.Services.impl
 
 import org.univ_paris8.iut.montreuil.qdev.tp2024.gr5.LeOnzeHeures.Services.modele.IJoueurService;
 import org.univ_paris8.iut.montreuil.qdev.tp2024.gr5.LeOnzeHeures.entities.DTO.InteretDTO;
+import org.univ_paris8.iut.montreuil.qdev.tp2024.gr5.LeOnzeHeures.entities.DTO.JoueurDTO;
+import org.univ_paris8.iut.montreuil.qdev.tp2024.gr5.LeOnzeHeures.entities.enums.LangueEnum;
 import org.univ_paris8.iut.montreuil.qdev.tp2024.gr5.LeOnzeHeures.entities.utils.exceptions.*;
 
 import java.util.ArrayList;
@@ -51,19 +53,21 @@ public class ServiceJoueurImpl implements IJoueurService {
             throw new AnneeInvalideException("L'année de naissance est invalide.");
         }
 
-       for (JoueurDTO joueur : joueurs) {
-            if (joueur.getPseudo().equals(pseudo)) {
-                throw new PseudoUtiliseException("Le pseudo est déjà utilisé.");
-            }
+        ArrayList<InteretDTO> interetDTOList = convertirStringEnListeInterets(interets);
+
+        JoueurDTO nouveauJoueur = new JoueurDTO(prenom, pseudo, anneeNaissance, langue, interetDTOList, null);
+
+        if (joueurs.contains(nouveauJoueur)) {
+            throw new PseudoUtiliseException("Le pseudo est déjà utilisé.");
         }
 
-        JoueurDTO nouveauJoueur = new JoueurDTO(prenom, pseudo, anneeNaissance, langue, interets, null);
         joueurs.add(nouveauJoueur);
+
         return true;
     }
 
-    private List<InteretDTO> convertirStringEnListeInterets(String interetsString) throws NonAlphabetiqueException {
-        List<InteretDTO> interets = new ArrayList<>();
+    private ArrayList<InteretDTO> convertirStringEnListeInterets(String interetsString) throws NonAlphabetiqueException {
+        ArrayList<InteretDTO> interets = new ArrayList<>();
         Set<String> interetSet = new HashSet<>();
         String[] interetsArray = interetsString.split(",");
         for (String interet : interetsArray) {
@@ -83,11 +87,11 @@ public class ServiceJoueurImpl implements IJoueurService {
         return interets;
     }
 
-    @Override
     public ArrayList<JoueurDTO> listerJoueurs() throws ChampVideException{
         if (joueurs.size() == 0) {
             throw new ChampVideException("Erreur la liste de joueur est vide");
         } else
             return joueurs;
     }
+
 }
