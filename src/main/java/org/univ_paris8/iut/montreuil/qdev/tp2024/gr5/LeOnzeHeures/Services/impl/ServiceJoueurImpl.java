@@ -28,7 +28,7 @@ public class ServiceJoueurImpl implements IJoueurService {
     }
 
     @Override
-    public boolean ajouterJoueur(String prenom, String pseudo, int anneeNaissance, LangueEnum langue, ArrayList<InteretDTO> interets) throws AnneeInvalideException, ChampVideException, NonAlphabetiqueException, NonAlphanumeriqueException, PseudoUtiliseException {
+    public JoueurDTO ajouterJoueur(String prenom, String pseudo, int anneeNaissance, LangueEnum langue, String interets) throws AnneeInvalideException, ChampVideException, NonAlphabetiqueException, NonAlphanumeriqueException, PseudoUtiliseException {
 
         if (prenom == null || prenom.isEmpty()) {
             throw new ChampVideException("Le prénom ne peut pas être vide.");
@@ -52,9 +52,9 @@ public class ServiceJoueurImpl implements IJoueurService {
             throw new AnneeInvalideException("L'année de naissance est invalide.");
         }
 
-        interets = listeSansDoublonsInterets(interets);
+        ArrayList<InteretDTO> interetDTOArrayList = convertirStringEnListeInterets(interets);
 
-        JoueurDTO nouveauJoueur = new JoueurDTO(prenom, pseudo, anneeNaissance, langue, interets);
+        JoueurDTO nouveauJoueur = new JoueurDTO(prenom, pseudo, anneeNaissance, langue, interetDTOArrayList);
 
         if (joueurs.contains(nouveauJoueur)) {
             throw new PseudoUtiliseException("Le pseudo est déjà utilisé.");
@@ -62,7 +62,7 @@ public class ServiceJoueurImpl implements IJoueurService {
 
         joueurs.add(nouveauJoueur);
 
-        return true;
+        return nouveauJoueur;
     }
 
     private void validerPrenom(String prenom) throws NonAlphabetiqueException {
@@ -80,13 +80,28 @@ public class ServiceJoueurImpl implements IJoueurService {
         }
     }
 
-    private ArrayList<InteretDTO> listeSansDoublonsInterets(ArrayList<InteretDTO> interets) {
-            Set<InteretDTO> setInterets = new HashSet<>();
-            for (InteretDTO interet : interets) {
-                setInterets.add(interet);
+    public ArrayList<InteretDTO> convertirStringEnListeInterets(String interetsString) throws NonAlphabetiqueException {
+        ArrayList<InteretDTO> interets = new ArrayList<>();
+        Set<String> interetSet = new HashSet<>();
+        String[] interetsArray = interetsString.split(",");
+        for (String interet : interetsArray) {
+            String interetTrimmed = interet.trim();
+
+            if (!interetTrimmed.matches("[a-zA-Z]+")) {
+                throw new NonAlphabetiqueException("L'intérêt ne peut pas contenir de chiffres : " + interetTrimmed);
             }
-            return new ArrayList<>(setInterets);
+
+            // ajout au set pour ne pas avoir de doublon
+            interetSet.add(interetTrimmed);
+        }
+
+        for (String interet : interetSet) {
+            interets.add(new InteretDTO(interet));
+        }
+
+        return interets;
     }
+
 
     public ArrayList<JoueurDTO> listerJoueurs() throws ChampVideException{
         if (joueurs.size() == 0) {
