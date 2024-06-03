@@ -81,8 +81,11 @@ public class ServiceJoueurImpl implements IJoueurService {
     }
 
     private ArrayList<InteretDTO> listeSansDoublonsInterets(ArrayList<InteretDTO> interets) {
-        Set<InteretDTO> setInterets = new HashSet<>(interets);
-        return new ArrayList<>(setInterets);
+            Set<InteretDTO> setInterets = new HashSet<>();
+            for (InteretDTO interet : interets) {
+                setInterets.add(interet);
+            }
+            return new ArrayList<>(setInterets);
     }
 
     public ArrayList<JoueurDTO> listerJoueurs() throws ChampVideException{
