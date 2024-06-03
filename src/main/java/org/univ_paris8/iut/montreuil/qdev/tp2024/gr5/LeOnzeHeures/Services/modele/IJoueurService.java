@@ -11,7 +11,7 @@ public interface IJoueurService {
                                   String pseudo,
                                   int anneeNaissance,
                                   LangueEnum langue,
-                                  String interets) throws AnneeInvalideException,
+                                  ArrayList<InteretDTO> interets) throws AnneeInvalideException,
                                                                         ChampVideException,
                                                                         NonAlphabetiqueException,
                                                                         NonAlphanumeriqueException,
