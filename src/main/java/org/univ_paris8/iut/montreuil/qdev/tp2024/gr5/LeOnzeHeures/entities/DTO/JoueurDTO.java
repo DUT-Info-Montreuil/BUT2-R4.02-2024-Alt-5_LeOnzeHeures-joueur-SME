@@ -10,10 +10,10 @@ public class JoueurDTO {
     private String pseudo;
     private int anneeNaissance;
     private LangueEnum langue;
-    private String interets;
+    private ArrayList<InteretDTO> interets;
     private ArrayList<StatistiquePartieDTO> stats;
 
-    public JoueurDTO(String prenom, String pseudo, int anneeNaissance, LangueEnum langue, String interets) {
+    public JoueurDTO(String prenom, String pseudo, int anneeNaissance, LangueEnum langue, ArrayList<InteretDTO> interets) {
         this.prenom         = prenom;
         this.pseudo         = pseudo;
         this.anneeNaissance = anneeNaissance;
@@ -39,7 +39,7 @@ public class JoueurDTO {
     public String getPseudo() {        return pseudo;    }
     public int getAnneeNaissance() {        return anneeNaissance;    }
     public LangueEnum getLangue() {        return langue;    }
-    public String getInterets() {        return interets;    }
+    public ArrayList<InteretDTO> getInterets() {        return interets;    }
     public ArrayList<StatistiquePartieDTO> getStats() {        return stats;    }
 
     public void setPrenom(String prenom) {this.prenom = prenom; }

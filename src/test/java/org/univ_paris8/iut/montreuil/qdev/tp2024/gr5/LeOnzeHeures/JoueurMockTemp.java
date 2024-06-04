@@ -19,6 +19,6 @@ public class JoueurMockTemp implements IJoueurService {
                                                                                                                     NonAlphanumeriqueException, PseudoUtiliseException
     {
         return new JoueurDTO("joueurSimple", "pseudoSimple", 2003,
-                LangueEnum.FRANCAIS, centreDInteretListe);
+                LangueEnum.FRANCAIS, new ArrayList<>());
     }
 }

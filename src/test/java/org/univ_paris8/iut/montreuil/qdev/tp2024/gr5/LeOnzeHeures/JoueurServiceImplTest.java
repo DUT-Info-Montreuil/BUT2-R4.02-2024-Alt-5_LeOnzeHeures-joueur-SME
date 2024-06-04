@@ -3,10 +3,14 @@ package org.univ_paris8.iut.montreuil.qdev.tp2024.gr5.LeOnzeHeures;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
+import org.univ_paris8.iut.montreuil.qdev.tp2024.gr5.LeOnzeHeures.Services.impl.ServiceJoueurImpl;
 import org.univ_paris8.iut.montreuil.qdev.tp2024.gr5.LeOnzeHeures.Services.modele.IJoueurService;
+import org.univ_paris8.iut.montreuil.qdev.tp2024.gr5.LeOnzeHeures.entities.DTO.InteretDTO;
 import org.univ_paris8.iut.montreuil.qdev.tp2024.gr5.LeOnzeHeures.entities.DTO.JoueurDTO;
 import org.univ_paris8.iut.montreuil.qdev.tp2024.gr5.LeOnzeHeures.entities.enums.LangueEnum;
 import org.univ_paris8.iut.montreuil.qdev.tp2024.gr5.LeOnzeHeures.entities.utils.exceptions.*;
+
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -18,7 +22,7 @@ public class JoueurServiceImplTest {
         @BeforeEach
         void setUp(TestInfo testInfo) throws Exception {
 
-            serviceJoueurBeanImpl = null;
+            serviceJoueurBeanImpl = ServiceJoueurImpl.getUniqueInstance();
 
             System.out.println("test " + testInfo.getDisplayName());
         }
@@ -26,10 +30,15 @@ public class JoueurServiceImplTest {
         @Test
         void ajouterJoueurSimpleOKTest() {
             // MOCK à supprimer lors de l'ajout du vrai service
-            serviceJoueurBeanImpl = new JoueurMockTemp();
+//            serviceJoueurBeanImpl = new JoueurMockTemp();
 
+            InteretDTO bowling= new InteretDTO("bowling");
+            InteretDTO manga= new InteretDTO("manga");
+            ArrayList<InteretDTO> l = new ArrayList<>();
+            l.add(bowling);
+            l.add(manga);
 
-            JoueurDTO joueurAttendu = new JoueurDTO("joueurSimple", "pseudoSimple", 2003, LangueEnum.FRANCAIS, "bowling, manga");
+            JoueurDTO joueurAttendu = new JoueurDTO("joueurSimple", "pseudoSimple", 2003, LangueEnum.FRANCAIS,l) ;
             try {
                 JoueurDTO joueurResultat = serviceJoueurBeanImpl.ajouterJoueur("joueurSimple", "pseudoSimple", 2003, LangueEnum.FRANCAIS, "bowling, manga");
                 System.out.println("JoueurAttendu : "+joueurAttendu);
@@ -44,7 +53,7 @@ public class JoueurServiceImplTest {
         @Test
         void erreurPrenomInvalide() {
             // MOCK à supprimer lors de l'ajout du vrai service
-            serviceJoueurBeanImpl = new JoueurMockTemp();
+//            serviceJoueurBeanImpl = new JoueurMockTemp();
 
             try {
                 NonAlphabetiqueException except = assertThrows(
@@ -63,7 +72,7 @@ public class JoueurServiceImplTest {
         @Test
         void erreurPseudoInvalide() {
             // MOCK à supprimer lors de l'ajout du vrai service
-            serviceJoueurBeanImpl = new JoueurMockTemp();
+//            serviceJoueurBeanImpl = new JoueurMockTemp();
             try {
                 NonAlphanumeriqueException except = assertThrows(
                         NonAlphanumeriqueException.class,
@@ -81,7 +90,7 @@ public class JoueurServiceImplTest {
         @Test
         void erreurPseudoUtilise() {
             // MOCK à supprimer lors de l'ajout du vrai service
-            serviceJoueurBeanImpl = new JoueurMockTemp();
+//            serviceJoueurBeanImpl = new JoueurMockTemp();
 
     try {
                 serviceJoueurBeanImpl.ajouterJoueur("armand", "PseudoPeuOriginal", 2003, LangueEnum.FRANCAIS, "bowling, manga");
@@ -101,7 +110,7 @@ public class JoueurServiceImplTest {
         @Test
         void erreurAnneeInvalide() {
             // MOCK à supprimer lors de l'ajout du vrai service
-            serviceJoueurBeanImpl = new JoueurMockTemp();
+//            serviceJoueurBeanImpl = new JoueurMockTemp();
 
             try {
                 AnneeInvalideException except = assertThrows(
@@ -130,7 +139,7 @@ public class JoueurServiceImplTest {
         @Test
         void erreurPrenomVide() {
             // MOCK à supprimer lors de l'ajout du vrai service
-            serviceJoueurBeanImpl = new JoueurMockTemp();
+//            serviceJoueurBeanImpl = new JoueurMockTemp();
 
             try {
                 ChampVideException except = assertThrows(
@@ -148,7 +157,7 @@ public class JoueurServiceImplTest {
         @Test
         void erreurPseudoVide() {
                 // MOCK à supprimer lors de l'ajout du vrai service
-                serviceJoueurBeanImpl = new JoueurMockTemp();
+//                serviceJoueurBeanImpl = new JoueurMockTemp();
 
                 try {
                     ChampVideException except = assertThrows(
@@ -167,7 +176,7 @@ public class JoueurServiceImplTest {
     @Test
     void erreurLangueVide() {
         // MOCK à supprimer lors de l'ajout du vrai service
-        serviceJoueurBeanImpl = new JoueurMockTemp();
+//        serviceJoueurBeanImpl = new JoueurMockTemp();
 
         try {
             ChampVideException except = assertThrows(
@@ -185,9 +194,9 @@ public class JoueurServiceImplTest {
         @Test
         void testInteretsVide() {
             // MOCK à supprimer lors de l'ajout du vrai service
-            serviceJoueurBeanImpl = new JoueurMockTemp();
+//            serviceJoueurBeanImpl = new JoueurMockTemp();
 
-            JoueurDTO j = new JoueurDTO("armand", "XxDarSasukexX", 2003, LangueEnum.FRANCAIS, "");
+            JoueurDTO j = new JoueurDTO("armand", "XxDarSasukexX", 2003, LangueEnum.FRANCAIS, new ArrayList<>());
             try {
                 JoueurDTO j2 = serviceJoueurBeanImpl.ajouterJoueur("armand", "XxDarSasukexX", 2003, LangueEnum.FRANCAIS, "");
 

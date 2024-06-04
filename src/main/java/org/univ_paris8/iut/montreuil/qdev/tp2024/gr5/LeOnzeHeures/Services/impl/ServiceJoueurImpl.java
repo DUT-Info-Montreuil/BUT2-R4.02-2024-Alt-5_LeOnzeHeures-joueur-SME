@@ -87,10 +87,6 @@ public class ServiceJoueurImpl implements IJoueurService {
         for (String interet : interetsArray) {
             String interetTrimmed = interet.trim();
 
-            if (!interetTrimmed.matches("[a-zA-Z]+")) {
-                throw new NonAlphabetiqueException("L'intérêt ne peut pas contenir de chiffres : " + interetTrimmed);
-            }
-
             // ajout au set pour ne pas avoir de doublon
             interetSet.add(interetTrimmed);
         }
@@ -104,7 +100,7 @@ public class ServiceJoueurImpl implements IJoueurService {
 
 
     public ArrayList<JoueurDTO> listerJoueurs() throws ChampVideException{
-        if (joueurs.size() == 0) {
+        if (joueurs.isEmpty()) {
             throw new ChampVideException("Erreur la liste de joueur est vide");
         } else
             return joueurs;
