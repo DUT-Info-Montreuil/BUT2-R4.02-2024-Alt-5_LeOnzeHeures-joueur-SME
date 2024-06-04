@@ -114,6 +114,17 @@ public class JoueurServiceImplTest {
             catch (Exception e) {
                 System.out.println("Erreur inattendu dans le test anneeInvalideException");
             }
+            try {
+                AnneeInvalideException except = assertThrows(
+                        AnneeInvalideException.class,
+                        () ->             serviceJoueurBeanImpl.ajouterJoueur("armand", "PseudoPeuOriginal", -23, LangueEnum.FRANCAIS, "bowling, manga"));
+
+                System.out.println("erreur attendue : AnneeInvalideException" );
+                System.out.println("ereur throw :"+ except);
+            }
+            catch (Exception e) {
+                System.out.println("Erreur inattendu dans le test anneeInvalideException");
+            }
         }
 
         @Test
